@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}复盘一览{% endblock %}
+
+{% block content %}
+<h1>复盘一览</h1>
+{% if reviews %}
+    {% for review in reviews %}
+        <div class="card timeline-item">
+            <div class="date">{{ review.trade_date }}</div>
+            <div class="title">
+                <a href="{% url 'review_detail' review.pk %}">{{ review.stock_code }}</a>
+                <span class="badge badge-{{ review.action }}">{{ review.get_action_display }}</span>
+            </div>
+            <div class="meta">价格：{{ review.price }}</div>
+            {% if review.note %}
+                <div style="margin-top:0.5rem;">{{ review.note|truncatechars:80 }}</div>
+            {% endif %}
+            {% if review.images.all %}
+                <div class="image-grid">
+                    {% for img in review.images.all|slice:":3" %}
+                        <img src="{{ img.image.url }}" alt="">
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+    {% endfor %}
+{% else %}
+    <div class="card">
+        <p>暂无复盘记录，<a href="{% url 'review_create' %}">立即新增</a>。</p>
+    </div>
+{% endif %}
+{% endblock %}

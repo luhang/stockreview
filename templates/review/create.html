@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}新增复盘{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h1>新增复盘记录</h1>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% for field in form %}
+            <div class="form-group">
+                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                {{ field }}
+                {% if field.errors %}
+                    <div style="color:#c5221f; margin-top:0.25rem; font-size:0.875rem;">
+                        {{ field.errors.0 }}
+                    </div>
+                {% endif %}
+            </div>
+        {% endfor %}
+        <button type="submit" class="btn">保存</button>
+        <a href="{% url 'review_list' %}" class="btn btn-secondary">取消</a>
+    </form>
+</div>
+{% endblock %}

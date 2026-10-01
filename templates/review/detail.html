@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ review.stock_code }} 复盘详情{% endblock %}
+
+{% block content %}
+<div class="card">
+    <a href="{% url 'review_list' %}" style="color:#1a73e8; text-decoration:none;">← 返回列表</a>
+    <h1 style="margin-top:1rem;">{{ review.stock_code }} <span class="badge badge-{{ review.action }}">{{ review.get_action_display }}</span></h1>
+    <div class="meta">交易日期：{{ review.trade_date }}</div>
+    <div class="meta">价格：{{ review.price }}</div>
+    {% if review.note %}
+        <h2 style="margin-top:1rem;">备注</h2>
+        <p style="margin-top:0.5rem; white-space:pre-wrap;">{{ review.note }}</p>
+    {% endif %}
+    {% if review.images.all %}
+        <h2 style="margin-top:1.5rem;">图片</h2>
+        <div class="image-grid">
+            {% for img in review.images.all %}
+                <a href="{{ img.image.url }}" target="_blank">
+                    <img src="{{ img.image.url }}" alt="">
+                </a>
+            {% endfor %}
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
